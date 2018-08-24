@@ -1,43 +1,38 @@
-import mingus.core.chords as chords
 import utils
-from mingus.core.scales import Major
-from mingus.containers import *
+
 from keyboard import Keyboard
+from musthe import *
 from random import choice, randint
 from optparse import OptionParser
 
 
 parser = OptionParser()
-parser.add_option("-c", "--chords", help='chords used in training. Example: "triads sevenths augmented"', default='triads')
-parser.add_option("-k", "--key", help='major key to select chords from. Example: "C"', default='C')
+parser.add_option("-c", "--chords", help='chords used in training. Example: "maj min dim"', default='maj')
+parser.add_option("-r", "--scale-root", help='root to base scale off of. Example: "C"', default='C')
+parser.add_option("-s", "--scale-name", help='chords are restricted to this scale. Example: "major"', default='major')
 (options, args) = parser.parse_args()
+
 keyboard = Keyboard()
+chord_names = options.chords.split();
+scale = Scale(Note(options.scale_root), options.scale_name)
 
 while True:
-    chord = utils.random_chord(options.key, options.chords.split())
+    # generate a chord
+    chord = None
+    while not utils.chord_in_scale(chord, scale):
+        root = choice(scale.notes)
+        chord_name = choice(chord_names)
+        chord = Chord(root, chord_name)
 
-    flat_chord = utils.flatten_notes(NoteContainer(chord))
+    print(str(chord))
+    # wait till user plays chord
+    flattened_chord = utils.flatten_notes(chord.notes)
     while True:
         played_notes = keyboard.next_state()
-        if played_notes is None:        
-            keyboard.play(NoteContainer(chord))
+        if played_notes is None:
+            print('wrong')
+            #keyboard.play(NoteContainer(chord))
         else:
-            flat_played_notes = utils.flatten_notes(played_notes)
-            if flat_chord == flat_played_notes:
-                chord_name = chords.determine(chord)[0]
-                chord_guess = None
-                while chord_guess != chord_name:
-                    if chord_guess == 'I give up.':
-                        print chord_name
-                        break
-
-                    chord_guess = raw_input("Enter the chord name: ")
-                
+            flattened_played_notes = utils.flatten_numbers(played_notes)
+            if flattened_chord == flattened_played_notes:
                 break
-            else:
-                print 'played: ',
-                print played_notes.determine()
-                #print ' ({}) /= ({})'.format('-'.join(str(x) for x in flat_chord), '-'.join(str(x) for x in flat_played_notes))
-
-
-

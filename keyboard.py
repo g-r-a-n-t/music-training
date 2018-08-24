@@ -1,42 +1,35 @@
-#!/usr/bin/python
-
 import mido
-from mingus.containers import *
+from musthe import *
 
 class Keyboard:
 	def __init__(self):
-		self.state = NoteContainer()
+		self.state = set()
 		self.outport = mido.open_output()
 		self.inport = mido.open_input()
 
 	def next_state(self):
 		for message in self.inport:
+			# pedal down
 			if message.type is 'control_change' and message.value is 127:
-				self.state = NoteContainer()
-                                return None
+				return None
 
 			elif message.type is 'note_on':
-				note = Note(message.note)
+				note = message.note
 				if message.velocity is not 0:
-					self.state.add_note(note)
+					self.state.add(note)
 					self.gaining = True
 
 				elif self.gaining:
-					old_state = NoteContainer(self.state)
+					old_state = set(self.state)
 					self.gaining = False
-					self.state.remove_note(note)
+					self.state.remove(note)
 					return old_state
 
 				elif not self.gaining:
-					self.state.remove_note(note)
-		
+					self.state.remove(note)
+
 	def play(self, notes):
 		for note in notes:
-			message = mido.Message('note_on', note=int(note), velocity=64)
+			message = mido.Message('note_on', note=note, velocity=64)
 			self.outport.send(message)
 			self.inport.receive()
-"""
-keyboard = Keyboard()
-while True:
-	print keyboard.next_state()
-"""
