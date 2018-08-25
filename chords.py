@@ -1,4 +1,5 @@
 import utils
+import time
 
 from keyboard import Keyboard
 from musthe import *
@@ -42,16 +43,20 @@ while True:
     # generate a chord
     chord = None
     while not utils.chord_in_scale(chord, scale):
-        chord_root = choice(scale)
+        chord_root = choice(scale) - Interval('P8')
         chord_name = choice(chord_names)
         chord = Chord(chord_root, chord_name)
 
     # wait till user plays chord
     print('new chord (press pedal for hint)')
+    start_time = 0 # track time it took to play
     while True:
         played_notes = keyboard.next_state()
-        if played_notes is None:
+        if played_notes is None: # pedal
+            if start_time == 0:
+                start_time = time.time()
             hint(chord)
-        else:
+        else: # keys played
             if check(played_notes, chord):
+                print("time: {}s".format(time.time() - start_time))
                 break
