@@ -22,14 +22,15 @@ class Keyboard:
 				elif self.gaining:
 					old_state = set(self.state)
 					self.gaining = False
-					self.state.remove(note)
+					if note in self.state:
+						self.state.remove(note)
 					return old_state
 
-				elif not self.gaining:
+				elif not self.gaining and note in self.state:
 					self.state.remove(note)
 
 	def play(self, notes):
 		for note in notes:
-			message = mido.Message('note_on', note=note, velocity=64)
+			message = mido.Message('note_on', note=note, velocity=50)
 			self.outport.send(message)
 			self.inport.receive()
