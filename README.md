@@ -24,12 +24,12 @@ Options:
   -t, --two-hands       checks if the chord was played in both hands
 ```
 
-### Available parameters:
+#### Available parameters:
 - chords: *maj, min, aug, dim, dom7, min7, maj7, aug7, m7dim5*
 - scales: *major, natural_minor, harmonic_minor, melodic_minor, major_pentatonic, minor_pentatonic*
 - roots: *any note*
 
-### Example usage:
+#### Example usage:
 ```sh
 $ ./chords.py --scale-name major --scale-root E --written-hint --audible-hint --two-hands --chords "maj min"
 new chord (press pedal for hint)
@@ -62,9 +62,27 @@ Options:
   -t, --two-hands       checks if the interval was played in both hands
 
 ```
-### Available parameters:
+#### Available parameters:
 - intervals: *P1, m2, M2, m3, M3, P4, A4, P5, m6, M6, m7, M7, P8*
 - roots: *any note*
 
-### Example usage:
-add this
+#### Example usage:
+```sh
+$ ./intervals.py --intervals "M3 P5 M7" --interval-root D --audible-hint --written-hint --two-hands
+new interval (press pedal for hint)
+M7
+time: 3.169617414474487s
+new interval (press pedal for hint)
+M3
+time: 4.972516059875488s
+new interval (press pedal for hint)
+M7
+time: 6.176300048828125s
+new interval (press pedal for hint)
+M7
+time: 1.1742990016937256s
+new interval (press pedal for hint)
+P5
+time: 5.430243730545044s
+...
+```
