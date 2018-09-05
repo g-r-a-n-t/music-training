@@ -1,7 +1,16 @@
-from keyboard import Keyboard
-from musthe import *
-from random import choice, randint
-from optparse import OptionParser
+def progression_notation(chord, scale):
+    if not chord_in_scale(chord, scale):
+        return None
+
+    numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
+    string = numerals[scale_index(chord.notes[0], scale)]
+    if '7' in str(chord):
+        string += '7'
+
+    return string
+
+def scale_index(note, scale):
+    return notes_as_numbers(scale.notes).index(note.number % 12 + 12)
 
 def chord_in_scale(chord, scale):
     if chord is None:

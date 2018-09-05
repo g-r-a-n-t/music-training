@@ -13,7 +13,7 @@ parser = OptionParser()
 parser.add_option("-c", "--chords", help='chords used in training. Example: "maj min dim"', default='maj')
 parser.add_option("-s", "--scale-name", help='scale to base chord selection off of. Example: "major"', default='major')
 parser.add_option("-r", "--scale-root", help='root to base scale off of. Example: "C"', default='C')
-parser.add_option("-w", "--written-hint", help='prints the name of the chord you are tasked with playing', action='store_true', default=False)
+parser.add_option("-w", "--written-hint", help='prints the name of the chord you are tasked with playing. Parameters: progression, shorthand', default="")
 parser.add_option("-a", "--audible-hint", help='audibly plays the chord you are tasked with playing', action='store_true', default=False)
 parser.add_option("-t", "--two-hands", help='checks if the chord was played in both hands', action='store_true', default=False)
 (options, args) = parser.parse_args()
@@ -23,8 +23,10 @@ chord_names = options.chords.split();
 scale = Scale(Note(options.scale_root), options.scale_name)
 
 def hint(chord):
-    if options.written_hint:
+    if options.written_hint == 'shorthand':
         print(str(chord))
+    if options.written_hint == 'progression':
+        print(utils.progression_notation(chord, scale))
     if options.audible_hint:
         keyboard.play(utils.notes_as_numbers(chord.notes))
 
