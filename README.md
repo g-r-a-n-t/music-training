@@ -5,7 +5,7 @@ This repository contains practical exercises in music theory and ear training. Y
 ## Chords
 The chords script will challenge you to play a randomly generated chord
 within a given key. When you have played the chord correctly, it will generate another. Chord types are limited to what is passed in under the "chords" option.
-To receive a hint for the chord you are trying to play, press the pedal. Depending on your options, this will either print the shorthand representation or play the chord through your configured audio output, or both. You don't need to play the chord in any specific way, it can be inverted or in a different octave. If you would like, you can set the "two hands" flag, which will require you two play each chord in both hands.
+To receive a hint for the chord you are trying to play, press the pedal. Depending on your options, this will either print the shorthand or progression representation or play the chord through your configured audio output, or print one of the two representaions and play audio. You don't need to play the chord in any specific way, it can be inverted or in a different octave. If you would like, you can set the "two hands" flag, which will require you to play each chord in both hands.
 ```sh
 $ ./chords.py -h
 Usage: chords.py [options]
@@ -18,8 +18,9 @@ Options:
                         scale to base chord selection off of. Example: "major"
   -r SCALE_ROOT, --scale-root=SCALE_ROOT
                         root to base scale off of. Example: "C"
-  -w, --written-hint    prints the name of the chord you are tasked with
-                        playing
+  -w WRITTEN_HINT, --written-hint=WRITTEN_HINT
+                        prints the name of the chord you are tasked with
+                        playing. Parameters: progression, shorthand
   -a, --audible-hint    audibly plays the chord you are tasked with playing
   -t, --two-hands       checks if the chord was played in both hands
 ```
@@ -31,7 +32,7 @@ Options:
 
 #### Example usage:
 ```sh
-$ ./chords.py --scale-name major --scale-root E --written-hint --audible-hint --two-hands --chords "maj min"
+$ ./chords.py --scale-name major --scale-root E --written-hint shorthand --audible-hint --two-hands --chords "maj min"
 new chord (press pedal for hint)
 Bmaj
 time: 4.741794109344482s
@@ -45,7 +46,7 @@ new chord (press pedal for hint)
 ...
 ```
 ## Intervals
-The intervals script will challenge you to play a randomly generated interval. When you have played the interval correctly, it will generate another. Intervals are limited to what is passed in under the "intervals" option. To receive a hint for the interval you are trying to play, press the pedal. Depending on your options, this will either print the shorthand representation or play the interval through your configured audio output. If you would like, you can set the "two hands" flag, which will require you two play each interval in both hands.
+The intervals script will challenge you to play a randomly generated interval. When you have played the interval correctly, it will generate another. Intervals are limited to what is passed in under the "intervals" option. To receive a hint for the interval you are trying to play, press the pedal. Depending on your options, this will either print the shorthand representation or play the interval through your configured audio output. If you would like, you can set the "two hands" flag, which will require you to play each interval in both hands.
 ```sh
 $ ./intervals.py -h
 Usage: intervals.py [options]
