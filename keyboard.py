@@ -19,15 +19,15 @@ class Keyboard:
                     self.state.add(note)
                     self.gaining = True
 
-            elif self.gaining:
-                old_state = set(self.state)
-                self.gaining = False
-                if note in self.state:
-                    self.state.remove(note)
-                return old_state
+                elif self.gaining:
+                    old_state = set(self.state)
+                    self.gaining = False
+                    if note in self.state:
+                        self.state.remove(note)
+                    return old_state
 
-            elif not self.gaining and note in self.state:
-                self.state.remove(note)
+                elif not self.gaining and note in self.state:
+                    self.state.remove(note)
 
     def play(self, notes):
         for note in notes:
